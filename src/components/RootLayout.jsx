@@ -2,7 +2,12 @@ import React from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { BarChart3, NotebookPen, Sparkles } from 'lucide-react';
 
-export default function RootLayout({ transactions, products, addTransaction }) {
+export default function RootLayout({
+  transactions,
+  products,
+  addTransaction,
+  removeTransaction
+}) {
   return (
     <div className="min-h-screen px-6 py-10 md:px-12">
       <header className="mb-10 flex flex-wrap items-center justify-between gap-6">
@@ -37,7 +42,7 @@ export default function RootLayout({ transactions, products, addTransaction }) {
         </nav>
       </header>
 
-      <Outlet context={{ transactions, products, addTransaction }} />
+      <Outlet context={{ transactions, products, addTransaction, removeTransaction }} />
     </div>
   );
 }
