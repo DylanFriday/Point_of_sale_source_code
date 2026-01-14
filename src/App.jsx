@@ -33,6 +33,10 @@ export default function App() {
     setTransactions((prev) => [transaction, ...prev]);
   };
 
+  const removeTransaction = (id) => {
+    setTransactions((prev) => prev.filter((tx) => tx.id !== id));
+  };
+
   return (
     <Routes>
       <Route
@@ -42,6 +46,7 @@ export default function App() {
             transactions={transactions}
             products={products}
             addTransaction={addTransaction}
+            removeTransaction={removeTransaction}
           />
         }
       >

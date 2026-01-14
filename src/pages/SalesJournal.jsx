@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
-import { ClipboardList, PlusCircle, RotateCcw } from 'lucide-react';
+import { ClipboardList, PlusCircle, RotateCcw, Trash2 } from 'lucide-react';
 import SectionCard from '../components/SectionCard.jsx';
 import TransactionTable from '../components/TransactionTable.jsx';
 import { formatCurrency } from '../utils/format.js';
@@ -8,10 +8,11 @@ import { formatCurrency } from '../utils/format.js';
 const getToday = () => new Date().toISOString().slice(0, 10);
 
 export default function SalesJournal() {
-  const { transactions, products, addTransaction } = useOutletContext();
+  const { transactions, products, addTransaction, removeTransaction } = useOutletContext();
   const [productId, setProductId] = useState(products[0]?.id || '');
   const [quantity, setQuantity] = useState(1);
   const [date, setDate] = useState(getToday());
+  const [pendingDelete, setPendingDelete] = useState(null);
   const hasProducts = products.length > 0;
 
   const selectedProduct = useMemo(
@@ -171,8 +172,45 @@ export default function SalesJournal() {
           </span>
         }
       >
-        <TransactionTable transactions={transactions} />
+        <TransactionTable transactions={transactions} onDelete={setPendingDelete} />
       </SectionCard>
+
+      {pendingDelete ? (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 px-6 py-10">
+          <div className="glass-card w-full max-w-md p-6">
+            <div className="flex items-center gap-3">
+              <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-white/10 text-coral-400">
+                <Trash2 size={18} />
+              </span>
+              <div>
+                <p className="font-display text-lg text-white">Delete transaction?</p>
+                <p className="text-sm text-slate-300">
+                  This will remove {pendingDelete.productName} from the journal.
+                </p>
+              </div>
+            </div>
+            <div className="mt-6 flex flex-wrap items-center justify-end gap-3">
+              <button
+                type="button"
+                onClick={() => setPendingDelete(null)}
+                className="button-muted"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  removeTransaction?.(pendingDelete.id);
+                  setPendingDelete(null);
+                }}
+                className="button-secondary"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

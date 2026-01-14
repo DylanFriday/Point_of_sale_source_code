@@ -1,7 +1,7 @@
 import React from 'react';
 import { formatCurrency } from '../utils/format.js';
 
-export default function TransactionTable({ transactions }) {
+export default function TransactionTable({ transactions, onDelete }) {
   if (!transactions.length) {
     return (
       <div className="rounded-2xl border border-dashed border-white/20 p-6 text-center text-sm text-slate-300">
@@ -21,6 +21,7 @@ export default function TransactionTable({ transactions }) {
             <th className="px-4 py-3 text-right">Unit</th>
             <th className="px-4 py-3 text-right">Qty</th>
             <th className="px-4 py-3 text-right">Total</th>
+            <th className="px-4 py-3 text-right">Action</th>
           </tr>
         </thead>
         <tbody className="divide-y divide-white/10">
@@ -35,6 +36,15 @@ export default function TransactionTable({ transactions }) {
               <td className="px-4 py-4 text-right text-slate-200">{tx.quantity}</td>
               <td className="px-4 py-4 text-right font-semibold text-white">
                 {formatCurrency(tx.total)}
+              </td>
+              <td className="px-4 py-4 text-right">
+                <button
+                  type="button"
+                  onClick={() => onDelete?.(tx)}
+                  className="rounded-full border border-white/15 px-3 py-1 text-xs font-semibold text-slate-200 transition hover:bg-white/10"
+                >
+                  Delete
+                </button>
               </td>
             </tr>
           ))}
