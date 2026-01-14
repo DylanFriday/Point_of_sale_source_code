@@ -1,9 +1,10 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { ClipboardList, PlusCircle, RotateCcw, Trash2 } from 'lucide-react';
 import SectionCard from '../components/SectionCard.jsx';
 import TransactionTable from '../components/TransactionTable.jsx';
 import { formatCurrency } from '../utils/format.js';
+import { loadCustomCategories, saveCustomCategories } from '../utils/storage.js';
 
 const getToday = () => new Date().toISOString().slice(0, 10);
 
@@ -13,6 +14,9 @@ export default function SalesJournal() {
   const [quantity, setQuantity] = useState(1);
   const [date, setDate] = useState(getToday());
   const [pendingDelete, setPendingDelete] = useState(null);
+  const [customCategories, setCustomCategories] = useState([]);
+  const [categorySelection, setCategorySelection] = useState('');
+  const [customCategory, setCustomCategory] = useState('');
   const hasProducts = products.length > 0;
 
   const selectedProduct = useMemo(
@@ -22,16 +26,54 @@ export default function SalesJournal() {
 
   const total = (selectedProduct?.price || 0) * Number(quantity || 0);
   const unitPrice = selectedProduct?.price || 0;
+  const productCategories = useMemo(
+    () =>
+      Array.from(
+        new Set(products.map((product) => product.category).filter(Boolean))
+      ),
+    [products]
+  );
+  const availableCategories = useMemo(
+    () => Array.from(new Set([...productCategories, ...customCategories])),
+    [productCategories, customCategories]
+  );
+
+  useEffect(() => {
+    setCustomCategories(loadCustomCategories());
+  }, []);
+
+  useEffect(() => {
+    if (categorySelection !== '__custom') {
+      setCategorySelection(selectedProduct?.category || '');
+    }
+  }, [selectedProduct, categorySelection]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     if (!selectedProduct) return;
 
+    if (categorySelection === '__custom' && !customCategory.trim()) {
+      return;
+    }
+
+    const finalCategory =
+      categorySelection === '__custom'
+        ? customCategory.trim()
+        : categorySelection || selectedProduct.category || 'Uncategorized';
+
+    if (categorySelection === '__custom') {
+      const nextCategories = Array.from(
+        new Set([...customCategories, finalCategory])
+      );
+      setCustomCategories(nextCategories);
+      saveCustomCategories(nextCategories);
+    }
+
     const transaction = {
       id: `tx-${Date.now()}`,
       productId: selectedProduct.id,
       productName: selectedProduct.name,
-      category: selectedProduct.category,
+      category: finalCategory,
       unitPrice: selectedProduct.price,
       quantity: Number(quantity),
       date,
@@ -41,6 +83,7 @@ export default function SalesJournal() {
     addTransaction(transaction);
     setQuantity(1);
     setDate(getToday());
+    setCustomCategory('');
   };
 
   const handleReset = () => {
@@ -83,11 +126,8 @@ export default function SalesJournal() {
                     </option>
                   ))}
                 </select>
-                <p className="mt-2 text-xs text-slate-400">
-                  Category: {selectedProduct?.category || 'Uncategorized'}
-                </p>
               </div>
-              <div className="grid gap-4 sm:grid-cols-2">
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 <div>
                   <label className="mb-2 block text-xs uppercase tracking-[0.3em] text-slate-300">
                     Quantity
@@ -103,6 +143,25 @@ export default function SalesJournal() {
                 </div>
                 <div>
                   <label className="mb-2 block text-xs uppercase tracking-[0.3em] text-slate-300">
+                    Category
+                  </label>
+                  <select
+                    value={categorySelection || selectedProduct?.category || ''}
+                    onChange={(event) => setCategorySelection(event.target.value)}
+                    className="input-field"
+                  >
+                    {availableCategories.map((category) => (
+                      <option key={category} value={category} className="text-slate-900">
+                        {category}
+                      </option>
+                    ))}
+                    <option value="__custom" className="text-slate-900">
+                      + Add custom category
+                    </option>
+                  </select>
+                </div>
+                <div>
+                  <label className="mb-2 block text-xs uppercase tracking-[0.3em] text-slate-300">
                     Date
                   </label>
                   <input
@@ -114,6 +173,21 @@ export default function SalesJournal() {
                   />
                 </div>
               </div>
+              {categorySelection === '__custom' ? (
+                <div>
+                  <label className="mb-2 block text-xs uppercase tracking-[0.3em] text-slate-300">
+                    Custom category
+                  </label>
+                  <input
+                    type="text"
+                    value={customCategory}
+                    onChange={(event) => setCustomCategory(event.target.value)}
+                    className="input-field"
+                    placeholder="e.g. Promotions"
+                    required
+                  />
+                </div>
+              ) : null}
             </div>
 
             <div className="flex h-full flex-col justify-between gap-4 rounded-3xl border border-white/10 bg-white/5 p-5">
@@ -131,6 +205,14 @@ export default function SalesJournal() {
                     <span className="text-sm text-slate-300">Unit price</span>
                     <span className="text-sm font-semibold text-white">
                       {formatCurrency(unitPrice)}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
+                    <span className="text-sm text-slate-300">Category</span>
+                    <span className="text-sm font-semibold text-white">
+                      {categorySelection === '__custom'
+                        ? customCategory || 'Custom'
+                        : categorySelection || selectedProduct?.category || 'Uncategorized'}
                     </span>
                   </div>
                   <div className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
