@@ -78,20 +78,11 @@
     <code>feature/*</code>: new features branched from <code>develop</code>,
     merged back via PR
   </li>
-  <li>
-    <code>release/*</code>: stabilization branch for a release, merged to
-    <code>main</code> and <code>develop</code>
-  </li>
-  <li>
-    <code>hotfix/*</code>: urgent fixes branched from <code>main</code>, merged
-    back to <code>main</code> and <code>develop</code>
-  </li>
 </ul>
 <p>Branch rules:</p>
 <ul>
   <li>Keep branches focused and short-lived.</li>
-  <li>Use PRs for review and CI checks.</li>
-  <li>Squash or rebase to keep history clean.</li>
+  <li>Use PRs for review.</li>
 </ul>
 
 <h2>Team Members</h2>
@@ -104,16 +95,16 @@
   </thead>
   <tbody>
     <tr>
-      <td>Member One</td>
-      <td>ID-001</td>
+      <td>Sitt Hmue Eain</td>
+      <td>ID - 6722070</td>
     </tr>
     <tr>
-      <td>Member Two</td>
-      <td>ID-002</td>
+      <td>HSU MYAT NOE MAUNG MAUNG</td>
+      <td>ID - 6715001</td>
     </tr>
     <tr>
-      <td>Member Three</td>
-      <td>ID-003</td>
+      <td>WIN THUTA AUNG</td>
+      <td>ID - 6715094</td>
     </tr>
   </tbody>
 </table>
