@@ -3,19 +3,33 @@
 
 :root {
   color-scheme: light;
-  --glass-bg: rgba(15, 23, 42, 0.55);
-  --glass-border: rgba(148, 163, 184, 0.2);
-  --glass-soft: rgba(255, 255, 255, 0.08);
-  --glass-strong: rgba(255, 255, 255, 0.14);
+  --glass-bg: rgba(15, 23, 42, 0.6);
+  --glass-border: rgba(148, 163, 184, 0.22);
+  --glass-soft: rgba(255, 255, 255, 0.1);
+  --glass-strong: rgba(255, 255, 255, 0.18);
 }
 
 body {
   @apply bg-ink-900 text-slate-100 antialiased;
   min-height: 100vh;
   background-image:
-    radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.25), transparent 45%),
-    radial-gradient(circle at 80% 0%, rgba(249, 115, 22, 0.25), transparent 40%),
-    linear-gradient(135deg, #0d1117 0%, #121826 60%, #0f172a 100%);
+    radial-gradient(circle at 12% 18%, rgba(56, 189, 248, 0.35), transparent 45%),
+    radial-gradient(circle at 80% 8%, rgba(129, 140, 248, 0.3), transparent 40%),
+    radial-gradient(circle at 70% 75%, rgba(34, 211, 238, 0.22), transparent 45%),
+    radial-gradient(circle at 20% 80%, rgba(244, 114, 182, 0.18), transparent 45%),
+    linear-gradient(135deg, #0b1120 0%, #111827 60%, #0f172a 100%);
+  background-attachment: fixed;
+}
+
+@keyframes float-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @layer components {
@@ -25,6 +39,12 @@ body {
     border-color: var(--glass-border);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
+    transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+  }
+
+  .glass-card:hover {
+    border-color: rgba(148, 163, 184, 0.3);
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.4);
   }
 
   .section-title {
@@ -39,6 +59,7 @@ body {
 
   .nav-pill {
     @apply flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition;
+    transition-property: background-color, color, box-shadow, transform;
   }
 
   .nav-pill-active {
@@ -55,21 +76,68 @@ body {
     @apply w-full rounded-2xl border px-4 py-3 text-sm text-white placeholder:text-slate-300 focus:border-ocean-400 focus:outline-none focus:ring-2 focus:ring-ocean-400/40;
     background-color: rgba(255, 255, 255, 0.08);
     border-color: rgba(148, 163, 184, 0.25);
+    transition: border-color 200ms ease, box-shadow 200ms ease, background-color 200ms ease;
+  }
+
+  .input-field:hover {
+    border-color: rgba(148, 163, 184, 0.35);
+    background-color: rgba(255, 255, 255, 0.1);
   }
 
   .button-primary {
     @apply inline-flex items-center justify-center gap-2 rounded-2xl bg-ocean-400 px-4 py-3 text-sm font-semibold text-white shadow-glow transition hover:bg-ocean-300;
+    transition-property: transform, box-shadow, background-color;
+  }
+
+  .button-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 18px 40px rgba(59, 130, 246, 0.35);
+  }
+
+  .button-primary:active {
+    transform: translateY(0);
   }
 
   .button-secondary {
     @apply inline-flex items-center justify-center gap-2 rounded-2xl border px-4 py-3 text-sm font-semibold text-white transition;
     background-color: var(--glass-soft);
     border-color: var(--glass-strong);
+    transition-property: transform, border-color, background-color;
+  }
+
+  .button-secondary:hover {
+    transform: translateY(-1px);
+    background-color: rgba(255, 255, 255, 0.16);
+    border-color: rgba(255, 255, 255, 0.25);
+  }
+
+  .button-secondary:active {
+    transform: translateY(0);
   }
 
   .button-muted {
     @apply inline-flex items-center justify-center gap-2 rounded-2xl border px-4 py-3 text-sm font-semibold text-slate-200 transition;
     background-color: rgba(255, 255, 255, 0.05);
     border-color: rgba(148, 163, 184, 0.2);
+    transition-property: transform, border-color, background-color, color;
+  }
+
+  .table-row-hover {
+    transition: background-color 180ms ease, color 180ms ease;
+  }
+
+  .button-muted:hover {
+    transform: translateY(-1px);
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(148, 163, 184, 0.3);
+    color: #ffffff;
+  }
+
+  .button-muted:active {
+    transform: translateY(0);
+  }
+
+  .page-enter {
+    animation: float-in 260ms ease-out both;
   }
 }
