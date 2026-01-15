@@ -13,7 +13,8 @@ const normalizeProducts = (products) =>
       id: item.id ?? `item-${index}`,
       name: item.itemName ?? item.name ?? item.title ?? `Item ${index + 1}`,
       category: item.category ?? 'Uncategorized',
-      price: Number(item.unitPrice ?? item.price ?? 0)
+      price: Number(item.unitPrice ?? item.price ?? 0),
+      description: item.description ?? ''
     }));
 
 export default function App() {

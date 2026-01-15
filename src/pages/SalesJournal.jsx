@@ -3,7 +3,7 @@ import { useOutletContext } from 'react-router-dom';
 import { ClipboardList, PlusCircle, RotateCcw, Trash2 } from 'lucide-react';
 import SectionCard from '../components/SectionCard.jsx';
 import TransactionTable from '../components/TransactionTable.jsx';
-import { formatCurrency } from '../utils/format.js';
+import { formatCurrency, formatDateLabel } from '../utils/format.js';
 import { loadCustomCategories, saveCustomCategories } from '../utils/storage.js';
 
 const getToday = () => new Date().toISOString().slice(0, 10);
@@ -17,6 +17,7 @@ export default function SalesJournal() {
   const [customCategories, setCustomCategories] = useState([]);
   const [categorySelection, setCategorySelection] = useState('');
   const [customCategory, setCustomCategory] = useState('');
+  
   const hasProducts = products.length > 0;
 
   const selectedProduct = useMemo(
@@ -201,6 +202,12 @@ export default function SalesJournal() {
                   </p>
                 </div>
                 <div className="grid gap-3">
+                  <div className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
+                    <span className="text-sm text-slate-300">Description</span>
+                    <span className="text-sm font-semibold text-white">
+                      {selectedProduct?.description}
+                    </span>
+                  </div>
                   <div className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
                     <span className="text-sm text-slate-300">Unit price</span>
                     <span className="text-sm font-semibold text-white">
