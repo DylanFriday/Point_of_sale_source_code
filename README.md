@@ -110,21 +110,17 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th>ID</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>Sitt Hmue Eain</td>
-     
     </tr>
     <tr>
       <td>HSU MYAT NOE MAUNG MAUNG</td>
-     
     </tr>
     <tr>
       <td>WIN THUTA AUNG</td>
-     
     </tr>
   </tbody>
 </table>
