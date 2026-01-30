@@ -14,6 +14,26 @@
   <li>Configurable theme tokens for colors and typography.</li>
 </ul>
 
+<h2>Screenshots</h2>
+<ul>
+  <li> 
+    <h3>Sales Dashboad - Analytics </h3>
+    <img width="1470" height="834" alt="Screenshot 2569-01-30 at 16 39 38" src="https://github.com/user-attachments/assets/ada18c34-1291-45e0-ac11-463b6de2c5ff" />
+  </li>
+  <li>
+    <h3>Sales Dashboard - Analytics </h3>
+    <img width="1470" height="834" alt="Screenshot 2569-01-30 at 16 39 55" src="https://github.com/user-attachments/assets/de16e48a-d53b-4b18-b648-7b6ce18ca16f" />
+  </li>
+  <li>
+    <h3>Sales Journal - Record New Sales </h3>
+    <img width="1470" height="834" alt="Screenshot 2569-01-30 at 16 40 37" src="https://github.com/user-attachments/assets/0dce6cb5-d1b5-4099-a66e-ed15ef2cb1b7" />
+  </li>
+  <li>
+    <h3>Sales Journal - Transactions </h3>
+    <img width="1470" height="834" alt="Screenshot 2569-01-30 at 16 40 45" src="https://github.com/user-attachments/assets/64ec1bee-be4f-4b29-a844-14ad9d249f05" />
+  </li>
+</ul>
+
 <h2>Tech Stack</h2>
 <ul>
   <li>Vite</li>
