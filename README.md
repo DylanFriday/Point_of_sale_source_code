@@ -114,7 +114,7 @@
   </thead>
   <tbody>
     <tr>
-      <td>Sitt Hmue Eain</td>
+      <td>SITT HMUE EAIN</td>
     </tr>
     <tr>
       <td>HSU MYAT NOE MAUNG MAUNG</td>
